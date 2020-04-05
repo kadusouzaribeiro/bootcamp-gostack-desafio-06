@@ -18,13 +18,18 @@ import {
 } from './styles';
 
 export default class User extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: navigation.getParam('user').name,
-  });
-
   static propTypes = {
+    route: PropTypes.shape({
+      params: PropTypes.shape({
+        user: PropTypes.shape({
+          login: PropTypes.string,
+          avatar: PropTypes.string,
+          name: PropTypes.string,
+          bio: PropTypes.string,
+        }),
+      }),
+    }).isRequired,
     navigation: PropTypes.shape({
-      getParam: PropTypes.func,
       navigate: PropTypes.func,
     }).isRequired,
   };
@@ -42,8 +47,8 @@ export default class User extends Component {
 
   load = async (page = 1) => {
     const { stars } = this.state;
-    const { navigation } = this.props;
-    const user = navigation.getParam('user');
+    const { route } = this.props;
+    const { user } = route.params;
 
     const response = await api.get(`/users/${user.login}/starred`, {
       params: { page },
@@ -76,10 +81,10 @@ export default class User extends Component {
   };
 
   render() {
-    const { navigation } = this.props;
+    const { route } = this.props;
     const { stars, loading, refreshing } = this.state;
 
-    const user = navigation.getParam('user');
+    const { user } = route.params;
 
     return (
       <Container>

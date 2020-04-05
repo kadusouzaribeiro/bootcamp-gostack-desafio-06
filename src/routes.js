@@ -1,28 +1,35 @@
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import Main from './pages/Main';
 import User from './pages/User';
 import Repository from './pages/Repository';
 
-const Routes = createAppContainer(
-  createStackNavigator(
-    {
-      Main,
-      User,
-      Repository,
-    },
-    {
-      headerLayoutPreset: 'center',
-      headerBackTitleVisible: false,
-      defaultNavigationOptions: {
+const Stack = createStackNavigator();
+
+export default function Routes() {
+  return (
+    <Stack.Navigator
+      headerBackTitleVisible={false}
+      headerLayoutPreset="center"
+      screenOptions={{
         headerStyle: {
           backgroundColor: '#7159c1',
         },
         headerTintColor: '#FFF',
-      },
-    }
-  )
-);
-
-export default Routes;
+      }}
+    >
+      <Stack.Screen name="Main" component={Main} options={{ title: 'Main' }} />
+      <Stack.Screen
+        name="User"
+        component={User}
+        options={({ route }) => ({ title: route.params.user.name })}
+      />
+      <Stack.Screen
+        name="Repository"
+        component={Repository}
+        options={({ route }) => ({ title: route.params.repository.name })}
+      />
+    </Stack.Navigator>
+  );
+}

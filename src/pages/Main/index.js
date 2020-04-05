@@ -20,10 +20,6 @@ import {
 } from './styles';
 
 export default class Main extends Component {
-  static navigationOptions = {
-    title: 'Usuários',
-  };
-
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func,
@@ -37,7 +33,6 @@ export default class Main extends Component {
   };
 
   async componentDidMount() {
-    console.tron.log(this.props);
     const users = await AsyncStorage.getItem('users');
 
     if (users) {
